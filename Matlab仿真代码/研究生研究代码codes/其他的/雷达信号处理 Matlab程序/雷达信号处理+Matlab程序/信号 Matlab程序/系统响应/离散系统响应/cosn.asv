@@ -1,0 +1,154 @@
+clc
+clear all
+close all
+syms t n k k1 k2 kn1 kn2 ;
+A=1;  %y[n]
+B=-0.5;%y[n-1]
+C=1;%y[n-2]
+i1=4;
+i2=1;
+m1=n;
+Am1=4;
+m2=n-1;
+Am2=0;
+m3=n+1;
+Am3=0;
+
+Am=5;
+w=0.5*pi;
+xt1=Am*cos(w*n);
+
+y1='A+B/t+C/(t^2)=0';
+f=char(subs(y1));
+z=solve(f);
+
+if C~=0
+    if z(1)~=z(2)&imag(z(1))==0
+    yn=k1*(z(1)^n)+k2*(z(2)^n);    
+elseif z(1)~=z(2)&imag(z(1))~=0
+    omega=angle(double(z(1)));
+    r=abs(z(1));
+    yn=sym('r^n*(kn1*cos(n*omega)+kn2*sin(n*omega))');
+    yn=subs(yn);
+elseif z(1)==z(2)&imag(z(1))==0
+    yn=z(1)^n*(k1+k2*n);
+elseif z(1)==z(2)&imag(z(1))~=0
+    ;
+end
+elseif C==0
+    yn=k*(z^n);
+end
+yf=sym('k1*cos(w*n)+k2*sin(w*n)');
+yf=subs(yf);
+yf=char(yf);
+y2=inline(yf,'n','k1','k2');
+y2_1=y2(n,k1,k2);
+y2_2=y2(n-1,k1,k2);
+y2_3=y2(n-2,k1,k2);
+f=sym('A*y2_1+B*y2_2+C*y2_3');
+f=subs(f);
+f1=subs(sym('f=xt1'));
+f=char(f1);
+n=0;
+kx=subs(f);
+kx=char(kx);
+n=pi/2/w;
+ky=subs(f);
+ky=char(ky);
+c=solve(kx,ky,'k1','k2');
+k1=c.k1;
+k2=c.k2;
+syms n;
+yf=subs(yf);
+yf=char(yf)
+
+y=yn+yf;
+y=subs(sym(y));
+if C~=0
+n=-1;
+y1=subs(sym('y=i1'));
+y1=subs(y1);
+n=-2;
+y2=subs(sym('y=i2'));
+y2=subs(y2);
+k=solve(y1,y2);
+else 
+    n=-1;
+y1=subs(sym('y=i1'));
+y1=subs(y1);
+end
+yzi=yn;
+
+f1='y=i1';
+fi1='yzi=i1';
+n=-1;
+f1=subs(f1);
+f1=subs(f1);
+f1=char(f1);
+fi1=subs(fi1);
+fi1=subs(fi1);
+fi1=char(fi1);
+
+f2='y=i2';
+fi2='yzi=i2';
+n=-2;
+f2=subs(f2);
+f2=subs(f2);
+f2=char(f2);
+fi2=subs(fi2);
+fi2=subs(fi2);
+fi2=char(fi2);
+
+if C~=0
+s=solve(f1,f2,'kn1','kn2');
+s1=solve(fi1,fi2,'kn1','kn2');
+
+k1=double(s.kn1);
+k2=double(s.kn2);
+ki1=double(s1.kn1);
+ki2=double(s1.kn2);
+else 
+    k=solve(f1);
+    ki1=solve(fi1);
+end
+kn1=k1;
+kn2=k2;
+syms n;
+yn=subs(yn)
+if C~=0
+kn1=ki1;
+kn2=ki2;
+else k=ki1;
+end
+yzi=subs(yzi)
+y='yf+yn';
+yzs='y-yzi';
+y=subs(sym(y));
+y=subs(y)
+yzs=subs(sym(yzs));
+yzs=subs(yzs)
+
+n=0.1:0.1:10;
+yf=subs(sym(yf));
+yn=subs(sym(yn));
+yzi=subs(sym(yzi));
+yzs=subs(sym(yzs));
+y=subs(sym(y));
+
+figure
+subplot(2,3,1)
+plot(n,y.*n./n);
+title('全响应')
+subplot(2,3,2)
+plot(n,yf.*n./n);
+title('受迫响应')
+subplot(2,3,3)
+plot(n,yn.*n./n);
+title('自然响应')
+subplot(2,3,4)
+plot(n,yzi.*n./n);
+title('零输入响应')
+subplot(2,3,5)
+plot(n,yzs.*n./n);
+title('零状态响应')
+   

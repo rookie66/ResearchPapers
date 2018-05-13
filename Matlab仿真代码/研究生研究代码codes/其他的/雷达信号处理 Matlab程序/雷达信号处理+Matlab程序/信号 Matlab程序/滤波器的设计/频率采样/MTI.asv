@@ -1,0 +1,60 @@
+clc
+clear all
+close all
+choose=3;
+lemna=0.01;
+sita=0.017;%固定杂波速度方差
+sita1=0.37;%动杂波速度方差
+f1=0:0.1:25;
+f2=0:0.1:50;
+fr=1e3;
+tr=1/fr;
+fs=8e6;
+ts=1/fs;
+fd=2.5e3;
+N=floor(fr*2*pi);
+G=exp(-(f1.^2*lemna^2/(8*sita^2)));
+G1=exp(-(f2.^2*lemna^2/(8*sita1^2)));
+nnoise=max(size(G));
+s=[G,zeros(1,2508-nnoise),G1,zeros(1,949),ones(1,200),zeros(1,N+151-4161),G,0];
+n=1:floor(fr*2*pi);
+k1=0.5;
+k2=0.0;
+k3=0.3;
+k=2;
+z=exp(j*n*tr);
+z_1=1./z;
+switch choose
+    case 1
+H=1-z_1;%一次对消
+   case 2
+H=1-k*z_1+z_1.^2;;%二次对消
+   case 3
+H=(1-z_1)./(1-k1*z_1);%反馈型一次对消
+   case 4
+H=(1-z_1).^2./(1-(k2+k3)*z_1+k3*z_1.^2);%反馈型三脉冲对消
+end
+H=abs(H);
+
+subplot(211),plot(n,H,'r')
+grid on
+text(-1,-0.4,'固定杂波')
+text(2.2e3,-0.4,'运动杂波')
+text(3.7e3,-0.4,'目标')
+text(6.2e3,-0.4,'fr')
+xlabel('f')
+ylabel('H')
+hold on
+n=1:floor(fr*2*pi)+150;
+plot(n,s,'b')
+
+y=s.*[H,ones(1,150)];
+subplot(212),plot(n,y)
+grid on
+text(-1,-0.4,'固定杂波')
+text(2.2e3,-0.4,'运动杂波')
+text(3.7e3,-0.4,'目标')
+text(6.2e3,-0.4,'fr')
+xlabel('f')
+ylabel('H')
+
