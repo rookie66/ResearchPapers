@@ -18,6 +18,7 @@ for p1 = p_s
     p
     Main
 end
+p_s = 0.1:0.3:1.5;
 figure
 semilogy(papr_base,PAPRs_no(1,:),'-b*');hold on;
 semilogy(papr_base,PAPRs_no(2,:),'-k*');
