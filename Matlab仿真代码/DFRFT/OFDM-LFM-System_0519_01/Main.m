@@ -19,9 +19,9 @@ PAPRs_no(index_p,:) = percent_paprs_CCDF_No_Reduction;
 PAPRs_slm(index_p,:) = percent_paprs_CCDF_SLM_Reduction;
 %save(strcat(matFiledir,papr_no_name,num2str(p*10),'.mat'),'percent_paprs_CCDF_No_Reduction');
 %save(strcat(matFiledir,papr_slm_name,num2str(p*10),'.mat'),'percent_paprs_CCDF_SLM_Reduction');
-%semilogy(papr_base,percent_paprs_CCDF_No_Reduction,'-b*');hold on;
-%semilogy(papr_base,percent_paprs_CCDF_SLM_Reduction,'-.r^');legend(' No\_Reduction',' SLM\_Reduction')
-%grid on;xlabel('PAPR\_base/dB');ylabel('CCDF');title('OFDM\_LFM\_PAPR\_CCDF曲线');hold off;
+semilogy(papr_base,percent_paprs_CCDF_No_Reduction,'-b*');hold on;
+semilogy(papr_base,percent_paprs_CCDF_SLM_Reduction,'-.r^');legend(' No\_Reduction',' SLM\_Reduction')
+grid on;xlabel('PAPR\_base/dB');ylabel('CCDF');title('OFDM\_LFM\_PAPR\_CCDF曲线');hold off;
 %**********************************************************************************************************
 %--------------------信道传输与解调--------------
 global EbNos 
