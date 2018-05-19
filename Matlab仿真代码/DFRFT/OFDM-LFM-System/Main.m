@@ -1,5 +1,6 @@
 
 close all;clear;clc
+format long
 % 生成信号
 signalsGenerator
 %无PAPR抑制算法处理
