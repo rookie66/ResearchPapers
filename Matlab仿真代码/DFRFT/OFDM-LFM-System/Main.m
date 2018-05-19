@@ -24,6 +24,12 @@ BERs_slm = DemodulationSLM(y_slm_serial);
 disp('误比特率：')
 BERs_no_reduction
 BERs_slm
+<<<<<<< HEAD
+figure,semilogy(EbNos,BERs_no_reduction),hold on;
+grid on ;semilogy(EbNos,BERs_slm);legend(' SLM',' OFDM')
+xlabel('SNR/dB');ylabel('BER');title('BER-SNR图像分析曲线');
+=======
 figure,semilogy(EbNos,BERs_no_reduction,'-b*'),hold on;
 grid on ;semilogy(EbNos,BERs_slm,'-.r^');legend(' No\_Reduction',' SLM with side Information')
 xlabel('SNR/dB');ylabel('BER');title('OFDM-LFM系统的BER-SNR图像');
+>>>>>>> 987a2b093037d32bcf97ba93f23655e90f5b8e94
