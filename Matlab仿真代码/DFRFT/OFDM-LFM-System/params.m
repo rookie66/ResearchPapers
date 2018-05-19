@@ -3,7 +3,7 @@
 global n n_16 M k N L LN U ofdmCodeNums Q papr_base EbNos p
 
 %信号比特数量
-n = 64*1024;  
+n = 64*1024*128*16;  
 %16QAM调制之后的码元数目
 n_16 = n/4;
 %MQAM
