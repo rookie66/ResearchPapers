@@ -10,6 +10,7 @@ function [ y_slm_para,paprs_SLM] = SLMProcess( y_para)
     for ii = 1:ofdmCodeNums
         [y_slm_para(:,ii), paprs_SLM(ii)]= SLMProcessPerOFDMCode(y_para(:,ii));%处理第ii个OFDM码元
     end
+
     function [ofdmSLMPerCode,perVectorMinPaprValue] = SLMProcessPerOFDMCode(ofdmCode_Vector)
         % 输入：OFDM的一个码元矢量(向量)
         % 返回：添加side information的长度为N+1的向量和该向量的PAPR值

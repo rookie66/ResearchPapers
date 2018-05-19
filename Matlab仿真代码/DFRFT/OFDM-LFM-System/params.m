@@ -1,13 +1,9 @@
 % OFDM-LFM系统的所有参数-params
 
-global n n_16 M k N L LN U ofdmCodeNums Q papr_base EbNos 
+global n n_16 M k N L LN U ofdmCodeNums Q papr_base EbNos p
 
 %信号比特数量
-<<<<<<< HEAD
 n = 64*1024*128*16;  
-=======
-n = 64*1024*16;  
->>>>>>> a4b10962d9577b272c60c59077a392f3cbfc18a3
 %16QAM调制之后的码元数目
 n_16 = n/4;
 %MQAM
@@ -28,4 +24,4 @@ papr_base = 5:0.3:13;
 %信噪比
 EbNos = -10:3:30;
 %DFRFT的阶数
-%p = 1;
+p = 1;
