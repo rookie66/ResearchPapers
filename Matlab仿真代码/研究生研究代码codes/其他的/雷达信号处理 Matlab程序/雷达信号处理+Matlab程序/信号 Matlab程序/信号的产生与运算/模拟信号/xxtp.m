@@ -1,0 +1,13 @@
+%线性调频信号
+%二次调频信号
+fs=1000;
+t=0:1/fs:1;
+f0=10;
+t1=1;
+f1=100;
+y=chirp(t,f0,t1,f1);
+y1=chirp(t,f0,t1,f1,'q');
+subplot(211);plot(t,y)
+title('线性调频信号')
+subplot(212);plot(t,y1)
+title('二次调频信号')

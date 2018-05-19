@@ -1,0 +1,11 @@
+f=10;
+fs=1000;
+width=0.7;
+t1=0:1/fs:1;
+t=2*pi*f*t1;
+y=sawtooth(t);
+y1=sawtooth(t,width);
+subplot(211);plot(t,y)
+title('¾â³Ý²¨')
+subplot(212);plot(t,y1)
+title('¶Ô³ÆÈý½Ç²¨')

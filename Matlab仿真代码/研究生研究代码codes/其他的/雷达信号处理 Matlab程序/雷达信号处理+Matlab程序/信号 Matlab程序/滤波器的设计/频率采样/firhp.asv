@@ -1,0 +1,50 @@
+clc
+clear all
+close all
+T1=0.1095;
+T2=0.598;
+N=61;
+alpha=(N-1)/2;
+l=0:N-1;wl=(2*pi/N)*l;
+Hrs=[zeros(1,22),T1,T2,ones(1,14),T2,T1,zeros(1,21)];
+Hdr=[0 0 1 1];
+wdl=[0  0.75 0.75 1];
+k1=0:floor((N-1)/2);k2=floor((N-1)/2)+1:N-1;
+angH=[-alpha*(2*pi)/N*(k1),alpha*(2*pi)/N*(N-k2)];
+Hdk=Hrs.*exp(j*angH);
+h=real(ifft(Hdk,N));
+[H,w]=freqz(h,[1],1000,'whole');
+H=(H(1:501))';
+w=(w(1:501))';
+mag=abs(H);
+db=20*log10((mag+eps)/max(mag));
+pha=angle(H);
+M=length(h);
+L=(M-1)/2;
+a=[h(L+1) 2*h(L:-1:1)];
+n=[0:L];
+ww=[0:500]'*pi/500;
+Hr=sin(ww*n)*a';
+
+figure
+subplot(221);plot(wl/pi+1/N,Hrs,'.',wdl,Hdr);
+axis([0 1 -0.1 1.1]);
+title('Bandpass')
+grid
+subplot(222);stem(l,h,'k');grid;
+title('impulse response')
+subplot(223);plot(ww/pi,Hr,'k',wl/pi+1/N,Hrs,'.');
+axis([0 1 -0.1 1.1]);
+title('amplitude response')
+grid
+subplot(224);plot(w/pi,db,'k');
+title('Magnitude response')
+grid
+axis([0 1 -100 10]);
+
+
+
+
+
+
+

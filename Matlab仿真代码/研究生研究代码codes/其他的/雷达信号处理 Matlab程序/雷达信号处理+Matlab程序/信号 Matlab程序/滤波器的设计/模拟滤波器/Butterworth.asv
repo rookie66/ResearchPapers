@@ -1,0 +1,50 @@
+clear all
+close all
+clc
+n=0:0.01:2;
+
+As=50;
+Ap=0.5;
+typeo=4;
+switch typeo
+case 1
+    type='bandpass';
+case 2
+    type='stop';
+case 3
+    type='high';
+case 4
+    type='low';
+end
+if typeo==1
+Wp=[0.4*pi,0.8*pi];
+Ws=[0.3*pi,0.9*pi];
+elseif typeo==2
+Ws=[0.4*pi,0.8*pi];
+Wp=[0.3*pi,0.9*pi];   
+elseif typeo==3 
+    Wp=0.6*pi;
+    Ws=0.5*pi;
+elseif typeo==4
+     Wp=0.6*pi;
+    Ws=0.7*pi;
+end
+[N,wn]=buttord(Wp/pi,Ws/pi,Ap,As);
+[b,a,k]=butter(N,wn,type,'s');
+[b,a]=zp2tf(b,a,k);
+[H,w]=freqs(b,a,n);
+H1=abs(H);
+H2=db(H1);
+b=find(w>=0.7&w<0.71);
+m=H2(b)
+subplot(211)
+plot(w,H1)
+xlabel('f');
+ylabel('|H(jw)|')
+title('ButterworthÂË²¨Æ÷')
+grid
+subplot(212)
+plot(w,angle(H))
+grid
+xlabel('f');
+ylabel('phase')
