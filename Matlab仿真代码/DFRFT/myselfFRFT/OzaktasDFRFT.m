@@ -52,7 +52,7 @@ X_fft = fft(x_before_conv_fft);
 
 y_ifft_part = ifft(H_fft.*X_fft);
 y_ifft_cut = y_ifft_part(N_num_cut+1:L_num_conv-N_num_cut);
-y_ifft_cut
+%y_ifft_cut
 %y_ifft_cut-y_conv_cut<0.01+0.01i  %将卷积结果和FFT计算结果相比较
 figure(1)
 plot(abs(real(y_ifft_cut)))

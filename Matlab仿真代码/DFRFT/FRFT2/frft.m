@@ -4,14 +4,14 @@ function Faf = frft(f, a)
 %        a = fractional power
 % output: Faf = fast Fractional Fourier transform
 error(nargchk(2, 2, nargin));
-f = f(:); %变成串
+f = f(:);
 N = length(f);
-shft = rem((0:N-1)+fix(N/2),N)+1;
+shft = rem((0:N-1)+fix(N/2),N)+1;%rem（）取余数；fix（）取整数部分;总体是右边的一半数移到左边；
 sN = sqrt(N);
-a = mod(a,4);%以4为阶数
+a = mod(a,4);
 % do special cases
 if (a==0), Faf = f; return; end;
-if (a==2), Faf = flipud(f); return; end;
+if (a==2), Faf = flipud(f); return; end;%flipud turn oppsite
 if (a==1), Faf(shft,1) = fft(f(shft))/sN; return; end 
 if (a==3), Faf(shft,1) = ifft(f(shft))*sN; return; end
 % reduce to interval 0.5 < a < 1.5
@@ -22,7 +22,7 @@ if (a<0.5), a = a+1; f(shft,1) = ifft(f(shft))*sN; end
 alpha = a*pi/2;
 tana2 = tan(alpha/2);
 sina = sin(alpha);
-f = [zeros(N-1,1) ; interp(f) ; zeros(N-1,1)];
+f = [zeros(N-1,1) ; interp(f) ; zeros(N-1,1)];%increase sampling rate
 % chirp premultiplication
 chrp = exp(-i*pi/N*tana2/4*(-2*N+2:2*N-2)'.^2);
 f = chrp.*f;
@@ -48,4 +48,4 @@ function z = fconv(x,y)
 N = length([x(:);y(:)])-1;
 P = 2^nextpow2(N);
 z = ifft( fft(x,P) .* fft(y,P));
-z = z(1:N);
+z = z(1:N); 

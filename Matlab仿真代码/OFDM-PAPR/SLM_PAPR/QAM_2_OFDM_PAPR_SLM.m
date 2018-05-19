@@ -1,12 +1,12 @@
 % 该程序功能改进：
 %     在QAM_2_OFDM_PAPR.m基础上,添加了过采样功能
 %     在添加信噪比修改了
-%     SLM算法：该代码并不是符合SLM算法
 %     SLM算法应该是对个符号都进行筛选，从而选择出PAPR最低的那个。
-%     改进的算法见
 close all;clear;clc
 %信号比特数据n
-n = 1024*128*64;  n_16 = n/4;
+%n = 1024*128*64;  
+n = 1024*64;
+n_16 = n/4;
 %MQAM
 M = 16;  k = log2(M);
 %载波个数
@@ -121,6 +121,3 @@ figure,semilogy(EbNos,rates),grid on;
 hold on ;semilogy(EbNos,rates_ofdm);
 xlabel('SNR/dB');ylabel('BER');title('BER-SNR图像分析曲线');
 legend(' SLM',' OFDM')
-
-
-

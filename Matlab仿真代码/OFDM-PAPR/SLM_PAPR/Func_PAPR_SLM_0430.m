@@ -1,5 +1,4 @@
 function [y_min_papr,min_papr] = Func_PAPR_SLM_0430(y_column,Q,L,M)
-% 规定figure(1)为PAPR图像；figure(2)为BER图像
 % 输入：
 % 输出：对应的papr、BER
 
