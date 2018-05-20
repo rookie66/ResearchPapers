@@ -2,6 +2,7 @@
 %close all;clear;clc
 clear ;
 format long 
+format compact
 %global papr_no_name papr_slm_name ber_no_name ber_slm_name matFiledir p
 global index_p  PAPRs_no PAPRs_slm BERs_no_s BERs_slm_s
 % Éú³ÉÐÅºÅ
