@@ -1,8 +1,8 @@
 % OFDM-LFM系统的所有参数-params
-global n n_16 M k N L LN ofdmCodeNums Q Q1 U U1 papr_base EbNos p papr_th Am_th
+global n n_16 M k N L LN ofdmCodeNums Q Q1 U U1 papr_base EbNos p papr_th
 %信号比特数量
 %n = 64*1024*128*16;  
-n = 256*16*4*4*16;  
+n = 256*16*4*4*32;  
 %16QAM调制之后的码元数目
 n_16 = n/4;
 %MQAM
@@ -27,5 +27,3 @@ papr_th = 7;
 EbNos = -10:3:30;
 %DFRFT的阶数
 p = 0.5;
-%限幅法的幅度阈值(Clipping)
-Am_th = 70;
