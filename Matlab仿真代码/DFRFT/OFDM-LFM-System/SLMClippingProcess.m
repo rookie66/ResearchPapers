@@ -75,12 +75,13 @@ function [ y_slm_clipping_para,paprs_SLM] = SLMClippingProcess( y_para)
     function [ClippingPerCode] = clipping(ofdmClippingPerCode)
         %利用Clipping限幅法处理每一个OFDM码元
         %保持相位不变，只改变幅度大小
-        global Am_th
+        global lambda
+        Am_th = sqrt(sum(abs(ofdmClippingPerCode).^2)/length(ofdmClippingPerCode))*lambda;
         for kkk = 1:length(ofdmClippingPerCode)
             if abs(ofdmClippingPerCode(kkk)) > Am_th
-%                 ofdmClippingPerCode(kkk)
+                ofdmClippingPerCode(kkk)
                 ofdmClippingPerCode(kkk) = Am_th*exp(1i*angle(ofdmClippingPerCode(kkk)));
-%                 ofdmClippingPerCode(kkk)
+                ofdmClippingPerCode(kkk)
             end
             ClippingPerCode = ofdmClippingPerCode;
         end
