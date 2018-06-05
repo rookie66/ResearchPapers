@@ -38,9 +38,12 @@ semilogy(papr_base,percent_paprs_CCDF_SLM_Clipping_Reduction,'--gd');
 % legend(' Original',' SLM',' PJ-SLM',' PJ-SLM-C','PJ_SLM_P','Location','west')
 legend(' Original',' SLM',' PJ-SLM',' PJ-SLM-C','Location','west')
 % legend(' Original',' SLM',' PJ-SLM','Location','west')
-grid on;xlabel('PAPR\_th/dB');ylabel('PAPR-CCDF');title('OFDM-LFM-RCI系统的PAPR-CCDF曲线');hold off;
+hold off;
+grid on;xlabel('PAPR\_th/dB');ylabel('PAPR-CCDF');
+% title('OFDM-LFM-RCI系统的PAPR-CCDF曲线');
+title('PAPR-CCDF');
 %**********************************************************************************************************
-%%--------------------信道传输与解调--------------
+%% --------------------信道传输与解调--------------
 global EbNos 
 %----------------对发送的串行数据在不同的信噪比下，添加噪声、解调并计算误码率-------------------
 BERs_no_reduction =  DemodulationNoPaprReduction(y_no_papr_reduction_serial);
@@ -59,8 +62,9 @@ semilogy(EbNos,BERs_slm_opti,'-.r^');
 semilogy(EbNos,BERs_slm_clipping,'--gd');
 legend(' Original',' SLM',' PJ-SLM',' PJ-SLM-C','Location','west')
 % legend(' Original',' SLM',' PJ-SLM','Location','west')
-xlabel('SNR');ylabel('BER');title('OFDM-LFM-RCI系统的BER-SNR图像');
-
+xlabel('SNR/dB');ylabel('BER');
+title('OFDM-LFM-RCI系统的BER-SNR图像');
+title('');
 %%雷达性能分析
 % 对象：加过噪声的信号。
 % 求自相关:就是分析距离分辨率的特征。
@@ -80,13 +84,14 @@ Corr_Resolution_Clipping_Opti_Reduction = abs(Corr_Resolution_Clipping_Opti_Redu
 % [Corr_Resolution_Clipping_Reduction,x3] = xcorr(y_slm_clipping_serial_opti,y_slm_clipping_serial_opti);
 % Corr_Resolution_Clipping_Reduction = abs(Corr_Resolution_Clipping_Reduction)/max(abs(Corr_Resolution_Clipping_Reduction));
 %作图：自相关性
-figure,plot(x0,Corr_Resolution_No_Reduction,'k'),hold on;grid on ;
-plot(x1,Corr_Resolution_SLM_Reduction,'b');
-plot(x2,Corr_Resolution_SLM_Opti_Reduction,'r');
-plot(x3,Corr_Resolution_Clipping_Opti_Reduction,'g');
+figure,plot(x0,Corr_Resolution_No_Reduction,'-k'),hold on;grid on ;
+plot(x1,Corr_Resolution_SLM_Reduction,'-.b');
+plot(x2,Corr_Resolution_SLM_Opti_Reduction,'--r');
+plot(x3,Corr_Resolution_Clipping_Opti_Reduction,'-g');
 legend(' Original',' SLM',' PJ-SLM','PJ-SLM-C','Location','northeast')
 space = 50;axis([-space,space,0,1.1])
 ylabel('归一化幅值'),title('共享信号的自相关性')
+ylabel('Amplitude'),title('the performance of auto-correlation')
 %% 距离分辨率实例
 interval = 10;
 y_recieve0 = [zeros(1,80000),y_recieve,zeros(1,80000)]; 
