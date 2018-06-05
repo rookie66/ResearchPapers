@@ -23,7 +23,7 @@ function [ y_slm_para,paprs_SLM] = SLMProcess( y_para )
             % 乘以相位序列
             y_slm_oversample(1:end-1) = Q(:,iii).*y_slm_oversample(1:end-1);
             
-            y_slm_oversample(LN+1) = modulate(modem.qammod(M),floor(iii/2));%修改了
+            y_slm_oversample(LN+1) = modulate(modem.qammod(M),iii);
             % 注意LN点采样后需要乘以L,因为采样后的幅度变为原来的1/L
             y_ofdm = L*dFRTPro(y_slm_oversample,-p);%LN+1点
             ofdmSLMCodesCandidate(:,iii) = y_ofdm;%保存下来

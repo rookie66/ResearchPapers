@@ -1,4 +1,4 @@
-function [ result ] = loopSLMProcess( Us )
+function [ result ] = loopSLMProcess( )
 %PROCESS Summary of this function goes here
 %   Detailed explanation goes here
 % 生成信号
@@ -8,7 +8,7 @@ signalsGenerator
 percent_paprs_CCDF_No_Reduction = paprCCDFCalu(papr_base,paprs_No_Reduction);%计算paprs的CCDF函数
 %进行SLM算法处理
 percent_paprs_CCDF_SLM_Reductions = ones(length(Us),length(papr_base));
-global U
+global U Us
 for ii = 1:length(Us)
     U = Us(ii);
     [y_slm_para,paprs_SLM] = SLMProcess( y_para );
