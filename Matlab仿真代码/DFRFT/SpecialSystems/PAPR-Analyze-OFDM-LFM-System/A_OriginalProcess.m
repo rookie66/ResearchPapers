@@ -1,4 +1,4 @@
-function [ y_no_Reduction_para,paprs_No_Reduction ] = NoPAPRReduction( y_para )
+function [ y_no_Reduction_para,paprs_No_Reduction ] = A_OriginalProcess( y_para )
 %不采用任何抑制PAPR的算法
 %   dFRT
 global ofdmCodeNums LN N L p

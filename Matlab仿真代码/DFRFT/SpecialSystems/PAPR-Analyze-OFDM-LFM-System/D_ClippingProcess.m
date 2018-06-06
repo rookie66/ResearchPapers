@@ -1,4 +1,4 @@
-function [ y_Clipping_para,paprs_Clipping] = ClippingProcess( y_para )
+function [ y_Clipping_para,paprs_Clipping] = D_ClippingProcess( y_para )
 % 输入:并行的复数数据y_para;复数因子Q
 % 输出:1.y_slm_para:经过SLM后的待发送的并行数据y_slm_para(已经包含了side information)
 %      2.paprs_SLM : 计算出来的最小的paprs_SLM,用于作PAPR-CCDF图

@@ -1,21 +1,21 @@
-function [ y_slm_para,paprs_SLM] = OptimizeSLMProcess( y_para)
+function [ y_slm_clipping_para,paprs_SLM] = E_PJSLMClippingProcess( y_para)
 % 输入:并行的复数数据y_para;复数因子Q
 % 输出:1.y_slm_para:经过SLM后的待发送的并行数据y_slm_para(已经包含了side information)
 %      2.paprs_SLM : 计算出来的最小的paprs_SLM,用于作PAPR-CCDF图
 
     global   ofdmCodeNums LN p 
     %下面进行优化的SLM算法抑制PAPR
-    y_slm_para = zeros(LN+1,ofdmCodeNums);%待发送的信号,第N+1行发送side information
+    y_slm_clipping_para = zeros(LN+1,ofdmCodeNums);%待发送的信号,第N+1行发送side information
     paprs_SLM = zeros(1,ofdmCodeNums);
     global Num_One  Num_More
     Num_One = 0; Num_More =0;
     sideInfoVs = zeros(1,ofdmCodeNums);
     for ii = 1:ofdmCodeNums
-        [y_slm_para(:,ii), paprs_SLM(ii),sideInfoV]= OptiSLMProcessPerOFDMCode(y_para(:,ii));%处理第ii个OFDM码元
+        [y_slm_clipping_para(:,ii), paprs_SLM(ii),sideInfoV]= OptiSLMProcessPerOFDMCode(y_para(:,ii));%处理第ii个OFDM码元
         sideInfoVs(ii) = sideInfoV;
     end
     %y_para
-    %y_slm_para
+    %y_slm_clipping_para
 %     sideInfoVs
     disp('OFDM码元的总数目：'); Num_One + Num_More
     disp('只进行一次IDFRFT变换的次数：'); Num_One
@@ -24,7 +24,7 @@ function [ y_slm_para,paprs_SLM] = OptimizeSLMProcess( y_para)
     function [ofdmSLMPerCode,perVectorMinPaprValue,sideInfoV] = OptiSLMProcessPerOFDMCode( ofdmCode_Vector )
         % 输入：OFDM的一个码元矢量(向量)
         % 返回：添加side information的长度为N+1的向量和该向量的PAPR值
-        global M  N L U1  Q papr_th
+        global M  N L U1 Q papr_th
         Q1 = Q(:,1:U1+1);
         % 从U个中选择PAPR最小的
         ofdmSLMCodesCandidate = zeros(LN+1,U1);
@@ -60,7 +60,32 @@ function [ y_slm_para,paprs_SLM] = OptimizeSLMProcess( y_para)
                     min_papr_indexs = find(paprs == perVectorMinPaprValue);
                     ofdmSLMPerCode = ofdmSLMCodesCandidate(:,min_papr_indexs(1));
                     sideInfoV  = min_papr_indexs(1);
+                    if perVectorMinPaprValue < papr_th
+                        %进一步判断，PAPR是否小于指定阈值；若不满足，则限幅算法处理
+                        return
+                    else%采用Clipping 限幅法，改变幅度，保持相位不变
+%                         disp('ddddddddddddddddd')
+                        ofdmSLMPerCode = clipping(ofdmSLMPerCode);
+%                         perVectorMinPaprValue
+                        perVectorMinPaprValue = per_Vector_PAPR_Calcu(ofdmSLMPerCode);%LN+1个点
+%                         perVectorMinPaprValue
+                    end
             end
+    end
+
+    function [ClippingPerCode] = clipping(ofdmClippingPerCode)
+        %利用Clipping限幅法处理每一个OFDM码元
+        %保持相位不变，只改变幅度大小
+        global lambda
+        Am_th = sqrt(sum(abs(ofdmClippingPerCode).^2)/length(ofdmClippingPerCode))*lambda;
+        for kkk = 1:length(ofdmClippingPerCode)
+            if abs(ofdmClippingPerCode(kkk)) > Am_th
+%                 ofdmClippingPerCode(kkk)
+                ofdmClippingPerCode(kkk) = Am_th*exp(1i*angle(ofdmClippingPerCode(kkk)));
+%                 ofdmClippingPerCode(kkk)
+            end
+            ClippingPerCode = ofdmClippingPerCode;
+        end
     end
 end
 
