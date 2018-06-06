@@ -24,7 +24,8 @@ function [ y_slm_clipping_para,paprs_SLM] = SLMClippingProcess( y_para)
     function [ofdmSLMPerCode,perVectorMinPaprValue,sideInfoV] = OptiSLMProcessPerOFDMCode( ofdmCode_Vector )
         % 输入：OFDM的一个码元矢量(向量)
         % 返回：添加side information的长度为N+1的向量和该向量的PAPR值
-        global M  N L U1  Q1 papr_th
+        global M  N L U1 Q papr_th
+        Q1 = Q(:,1:U1+1);
         % 从U个中选择PAPR最小的
         ofdmSLMCodesCandidate = zeros(LN+1,U1);
         paprs = zeros(1,U1+1);
