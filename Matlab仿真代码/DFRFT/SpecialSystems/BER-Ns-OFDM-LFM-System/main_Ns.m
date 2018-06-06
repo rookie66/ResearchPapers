@@ -1,7 +1,8 @@
 % 该系统的入口
 % 自变量：N子载波的数目
 % 因变量 BER误码率(不考虑任何的PAPR抑制)
-% Ns = [32,64,128,256];
+% 
+clear;clc,close all
 global EbNos
 format long;format compact
 BERs_32 = process(32);

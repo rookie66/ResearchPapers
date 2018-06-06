@@ -15,7 +15,12 @@ percent_paprs_CCDF_SLM_Reduction_opti = paprCCDFCalu(papr_base,paprs_SLM_opti);%
 %进行PJ-SLM-C算法处理
 [y_slm_clipping_para,paprs_SLM_Clipping] = SLMClippingProcess( y_para);
 percent_paprs_CCDF_SLM_Clipping_Reduction = paprCCDFCalu(papr_base,paprs_SLM_Clipping);%计算paprs的CCDF函数
+%直接限幅法处理
+[y_Clipping_para,paprs_Clipping] = ClippingProcess( y_para);
+percent_paprs_CCDF_Clipping_Reduction = paprCCDFCalu(papr_base,paprs_Clipping);%计算paprs的CCDF函数
+
 result = [percent_paprs_CCDF_No_Reduction;percent_paprs_CCDF_SLM_Reduction;
-          percent_paprs_CCDF_SLM_Reduction_opti;percent_paprs_CCDF_SLM_Clipping_Reduction];
+          percent_paprs_CCDF_SLM_Reduction_opti;percent_paprs_CCDF_SLM_Clipping_Reduction;
+          percent_paprs_CCDF_Clipping_Reduction];
 end
 
