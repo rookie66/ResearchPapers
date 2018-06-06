@@ -1,5 +1,5 @@
 % OFDM-LFM系统的所有参数-params
-global n n_16 M k N L LN ofdmCodeNums Q U papr_base EbNos p papr_th Us
+global n n_16 M k N L LN ofdmCodeNums Q U papr_base EbNos p Us
 %不同的U值
 Us = [2,4,6,8,10];
 %信号比特数量
@@ -21,7 +21,6 @@ Q = 1j.^randi([1,4],LN,U);%一列是一组
 Q(:,1) = ones(LN,1);
 %PAPR-CCDF函数的统计基准
 papr_base = 4:0.2:11;
-papr_th = 7.2;
 %信噪比
 EbNos = -10:3:30;
 %DFRFT的阶数

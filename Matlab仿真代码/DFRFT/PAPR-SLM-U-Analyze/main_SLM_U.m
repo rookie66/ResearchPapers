@@ -3,7 +3,6 @@
 format long ;format compact;
 close all;clear;clc
 global papr_base
-sumResult = zeros(4,length(papr_base));
 result = loopSLMProcess();
 %------------------×÷PAPRµÄCCDFÍ¼Ïñ------------------------
 semilogy(papr_base,result(1,:),'-k*');hold on;
